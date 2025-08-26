@@ -27,7 +27,7 @@ const Chatbot = ({ showNotification, theme }) => {
   const fetchBotResponse = async (userMessageText) => {
     setIsLoading(true);
 
-    const OPENROUTER_API_KEY = "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";
+    const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
     const YOUR_SITE_URL = "http://localhost:5173";
     const YOUR_SITE_NAME = "EduCare App";
 
@@ -47,8 +47,8 @@ const Chatbot = ({ showNotification, theme }) => {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-          "HTTP-Referer": YOUR_SITE_URL,
-          "X-Title": YOUR_SITE_NAME,
+          "HTTP-Referer": "http://localhost:5173",
+          "X-Title": "EduCare App",
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
