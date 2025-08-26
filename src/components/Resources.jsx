@@ -28,7 +28,7 @@ const Resources = ({ theme }) => {
             width="100%"
             height="200"
             className="rounded-xl"
-            src="https://www.youtube.com/embed/n4p3L0s64iY"
+            src="https://www.youtube.com/embed/I5tip6L5fOQ"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

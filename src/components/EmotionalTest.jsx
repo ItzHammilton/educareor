@@ -22,10 +22,10 @@ const EmotionalTest = ({ showNotification, theme }) => {
       id: 2,
       text: "¿Qué tan bien manejas el estrés en tu vida diaria?",
       options: [
-        { value: 4, label: "Muy mal" },
-        { value: 3, label: "Mal" },
-        { value: 2, label: "Bien" },
         { value: 1, label: "Muy bien" },
+        { value: 2, label: "Bien" },
+        { value: 3, label: "Mal" },
+        { value: 4, label: "Muy mal" },
       ],
     },
     {
@@ -38,7 +38,58 @@ const EmotionalTest = ({ showNotification, theme }) => {
         { value: 4, label: "No, nunca" },
       ],
     },
+    {
+    id: 4,
+    text: "¿Con qué frecuencia te tomas tiempo para ti y haces algo que disfrutas?",
+    options: [
+      { value: 1, label: "Casi siempre" },
+      { value: 2, label: "Con frecuencia" },
+      { value: 3, label: "A veces" },
+      { value: 4, label: "Casi nunca" },
+    ],
+  },
+  {
+    id: 5,
+    text: "En una escala del 1 al 4, ¿qué tan optimista te sientes acerca del futuro?",
+    options: [
+      { value: 1, label: "Muy optimista" },
+      { value: 2, label: "Un poco optimista" },
+      { value: 3, label: "Un poco pesimista" },
+      { value: 4, label: "Muy pesimista" },
+    ],
+  },
+  {
+    id: 6,
+    text: "¿Con qué frecuencia te comparas negativamente con otras personas?",
+    options: [
+      { value: 1, label: "Casi nunca" },
+      { value: 2, label: "A veces" },
+      { value: 3, label: "Con frecuencia" },
+      { value: 4, label: "Casi siempre" },
+    ],
+  },
+  {
+    id: 7,
+    text: "¿Qué tan satisfecho/a te sientes con tus logros personales y académicos?",
+    options: [
+      { value: 1, label: "Muy satisfecho/a" },
+      { value: 2, label: "Un poco satisfecho/a" },
+      { value: 3, label: "Un poco insatisfecho/a" },
+      { value: 4, label: "Muy insatisfecho/a" },
+    ],
+  },
+  {
+    id: 8,
+    text: "¿Con qué frecuencia duermes bien y te sientes descansado/a al despertar?",
+    options: [
+      { value: 1, label: "Casi siempre" },
+      { value: 2, label: "Con frecuencia" },
+      { value: 3, label: "A veces" },
+      { value: 4, label: "Casi nunca" },
+    ],
+  },
   ];
+
 
   // carga resultados anteriores desde localStorage
   useEffect(() => {

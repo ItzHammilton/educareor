@@ -4,23 +4,23 @@ import ProfessionalCard from './ProfessionalCard';
 const ProfessionalContact = ({ theme }) => {
   const professionals = [
     {
-      name: "Dr. Ana Gómez",
+      name: "Dr. Aura Lopez",
       specialty: "Psicóloga clínica",
       bio: "Especialista en terapia cognitivo-conductual y manejo de la ansiedad.",
-      photo: "https://placehold.co/200x200/526D82/FFFFFF?text=Ana",
+      photo: "https://placehold.co/200x200/526D82/FFFFFF?text=Aura",
       contact: {
-        email: "anagomez@educare.com",
-        phone: "+1234567890",
+        email: "auralopez@educare.com",
+        phone: "+50584034552",
       },
     },
     {
-      name: "Lic. Juan Pérez",
+      name: "Lic. Hammilton Pastran",
       specialty: "Terapeuta familiar",
       bio: "Enfocado en relaciones, comunicación y crecimiento personal.",
-      photo: "https://placehold.co/200x200/526D82/FFFFFF?text=Juan",
+      photo: "https://placehold.co/200x200/526D82/FFFFFF?text=Hammilton",
       contact: {
-        email: "juanperez@educare.com",
-        phone: "+1234567891",
+        email: "hammiltonflo2001@gmail.com",
+        phone: "+50578596987",
       },
     },
   ];

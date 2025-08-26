@@ -96,7 +96,10 @@ const Chatbot = ({ showNotification, theme }) => {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-3xl font-bold text-slate-100 text-center">Chat de Apoyo</h2>
+      <h2 className={`text-3xl font-bold text-center ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}>
+      Chat de Apoyo
+      </h2>
+      
       <div className={`h-96 overflow-y-auto p-4 rounded-2xl scrollbar-thin ${chatContainerClasses}`}>
         <div className="flex flex-col space-y-4">
           {messages.map((msg, index) => (

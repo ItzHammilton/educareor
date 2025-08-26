@@ -19,7 +19,8 @@ const ProfessionalCard = ({ pro, theme }) => {
 
       <div className="flex gap-4 mt-4">
         <a
-          href={`mailto:${pro.contact.email}`}
+          href={`mailto:${pro.contact.email}?subject=Consulta&body=Ayuda%20Psicoemocional`}
+          
           className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-6 py-3 rounded-full hover:from-indigo-500 hover:to-indigo-600 transition-colors duration-200 shadow-md"
         >
           Correo

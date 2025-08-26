@@ -15,7 +15,7 @@ const App = () => {
   // estado para notificaciones temporales
   const [notification, setNotification] = useState('');
   // estado para tema: 'oscuro' o 'claro'
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   // estado para la visibilidad de la barra lateral
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -69,8 +69,12 @@ const App = () => {
         </button>
 
         <div className={`w-full p-4 md:p-8 rounded-3xl animate-fade-in-up transition-colors duration-500 flex flex-col min-h-full ${contentClasses}`}>
-          <header className="py-4 flex justify-between items-center border-b border-indigo-500 mb-8">
-            <h1 className="text-4xl font-extrabold text-indigo-500">EduCare</h1>
+          <header className="py-2 flex justify-between items-center border-b border-indigo-500 mb-8">
+            <img 
+              src="logo.png" 
+              alt="EduCare Logo" 
+              className="h-20 w-auto" 
+           />
             <p className="text-xl font-medium text-indigo-400">"Tu bienestar es nuestra prioridad."</p>
           </header>
 
