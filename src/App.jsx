@@ -69,15 +69,19 @@ const App = () => {
         </button>
 
         <div className={`w-full p-4 md:p-8 rounded-3xl animate-fade-in-up transition-colors duration-500 flex flex-col min-h-full ${contentClasses}`}>
-          <header className="py-2 flex justify-between items-center border-b border-indigo-500 mb-8">
-            <img 
-              src="logo.png" 
-              alt="EduCare Logo" 
-              className="h-20 w-auto" 
-           />
-            <p className="text-xl font-medium text-indigo-400">"Tu bienestar es nuestra prioridad."</p>
+          <header className="py-2 flex flex-col items-center md:flex-row md:justify-between md:items-center border-b border-indigo-500 mb-8">
+            <div className="flex justify-center md:justify-start w-full md:w-auto mb-4 md:mb-0">
+              <img 
+                src="logo.png" 
+                alt="EduCare Logo" 
+                className="h-20 w-auto" 
+              />
+            </div>
+            {/* Se agregó un margen superior en móvil para separar el texto del logo */}
+            <p className="mt-2 md:mt-0 text-xl font-medium text-indigo-400 text-center md:text-left">
+             Tu bienestar es nuestra prioridad.
+            </p>
           </header>
-
           <main className="flex-grow">
             {view === 'welcome' && <WelcomeScreen theme={theme} />}
             {view === 'chat' && <Chatbot showNotification={showNotification} theme={theme} />}
@@ -87,7 +91,7 @@ const App = () => {
           </main>
           
           <footer className={`mt-8 py-4 text-center border-t border-indigo-500 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-            <p className="text-sm">© 2024 EduCare.</p>
+            <p className="text-sm">© 2025 EduCare.</p>
             <p className="text-sm">EduCare no sustituye servicios de emergencia</p>
           </footer>
         </div>

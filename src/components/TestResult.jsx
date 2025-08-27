@@ -5,11 +5,14 @@ const TestResult = ({ score, date, onReset, theme }) => {
   let color = 'bg-slate-400';
   let message = 'Tu puntuación ha sido calculada. Un puntaje bajo indica un buen estado emocional, mientras que uno alto sugiere áreas de mejora.';
 
-  // 🚨 Lógica de feedback actualizada para un puntaje máximo de 32
-  if (score <= 10) {
+  // calcular el porcentaje del puntaje
+  const scorePercentage = (score / 32) * 100;
+
+  // logica de feedback actualizada para funcionar con porcentajes
+  if (scorePercentage <= 25) {
     feedback = "¡Excelente! Parece que tienes una buena gestión emocional.";
     color = "bg-green-500";
-  } else if (score <= 20) {
+  } else if (scorePercentage <= 50) {
     feedback = "Buen manejo. Puede que haya áreas que necesiten un poco más de atención.";
     color = "bg-yellow-500";
   } else {
@@ -26,15 +29,15 @@ const TestResult = ({ score, date, onReset, theme }) => {
 
       <div className={`p-6 rounded-2xl ${cardClasses}`}>
         <p className={`text-xl font-semibold ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>Fecha del Test: {date}</p>
-        {/* 🚨 Actualizar el total de la puntuación de 12 a 32 */}
-        <p className={`text-2xl font-bold mt-2 ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}>Puntuación Total: <span className="text-indigo-400">{score}</span> / 32</p>
+        {/* mostrar el puntaje en porcentaje */}
+        <p className={`text-2xl font-bold mt-2 ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}>Puntuación Total: <span className="text-indigo-400">{scorePercentage.toFixed(0)}%</span></p>
 
-        {/* Gráfico de barras simple */}
+        {/* grafico de barras simple */}
         <div className={`mt-4 w-full h-8 rounded-full ${theme === 'dark' ? 'bg-slate-600' : 'bg-slate-300'} overflow-hidden`}>
           <div
             className={`h-full ${color} transition-all duration-700 ease-in-out`}
-            // 🚨 Actualizar el divisor de la anchura de 12 a 32
-            style={{ width: `${(score / 32) * 100}%` }}
+            // usar el porcentaje para la anchura
+            style={{ width: `${scorePercentage}%` }}
           ></div>
         </div>
       </div>
