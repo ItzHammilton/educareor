@@ -1,11 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
+// componente principal del Chatbot
 const Chatbot = ({ showNotification, theme }) => {
-  const [messages, setMessages] = useState([
-    { text: '¡Hola! Estoy aquí para escucharte. ¿Cómo te sientes hoy?', sender: 'bot' }
-  ]);
+  // estado para los mensajes del chat. El estado inicial carga desde localStorage o usa un mensaje de bienvenida.
+  const [messages, setMessages] = useState(() => {
+    try {
+      // intenta cargar mensajes desde el almacenamiento local
+      const storedMessages = localStorage.getItem('chat_messages');
+      return storedMessages ? JSON.parse(storedMessages) : [
+        { text: '¡Hola! Estoy aquí para escucharte. ¿Cómo te sientes hoy?', sender: 'bot' }
+      ];
+    } catch (error) {
+      console.error("Error al cargar mensajes desde localStorage:", error);
+      // en caso de error, retorna el mensaje inicial por defecto
+      return [
+        { text: '¡Hola! Estoy aquí para escucharte. ¿Cómo te sientes hoy?', sender: 'bot' }
+      ];
+    }
+  });
+
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // referenca para desplazar automaticamente la vista hacia el ultimo mensaje
+  const messagesEndRef = useRef(null);
+
+  // efecto para guardar los mensajes en el almacenamiento local cada vez que cambian
+  useEffect(() => {
+    try {
+      localStorage.setItem('chat_messages', JSON.stringify(messages));
+    } catch (error) {
+      console.error("Error al guardar mensajes en localStorage:", error);
+    }
+  }, [messages]);
+
+  // efecto para hacer scroll al final de la conversación
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isLoading]);
+
+  // lista de palabras clave relacionadas con el suicidio y la autolesion
+  const DANGER_KEYWORDS = [
+    'suicidio', 'matarme', 'quitarme la vida', 'no quiero vivir', 'hacerme daño',
+    'autolesionarme', 'cortarme', 'morir', 'desaparecer', 'todo acaba', 'ya no puedo más'
+  ];
+
+  // funciin para limpiar el texto de acentos y convertirlo a minusculas
+  const normalizeText = (text) => {
+    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  // funcion para detectar si un mensaje contiene palabras de peligro
+  const containsDangerKeyword = (message) => {
+    const normalizedMessage = normalizeText(message);
+    return DANGER_KEYWORDS.some(keyword => normalizedMessage.includes(keyword));
+  };
 
   // clases para las burbujas de chat
   const bubbleClasses = (sender) => {
@@ -20,7 +69,7 @@ const Chatbot = ({ showNotification, theme }) => {
     }
   };
 
-  // nuevo mensaje para el chatbot, tal y como lo ha solicitado el usuario
+  // contexto bajo que el chatbot interactuara con el usuario
   const CHATBOT_PROMPT = `Eres un chatbot de apoyo emocional para estudiantes universitarios. Responde de manera empática, comprensiva y tranquilizadora. No des consejos médicos ni diagnósticos. Mantén la respuesta breve y conversacional. Usa expresiones juveniles (18-24 años).`;
 
   // funcion para realizar una llamada API real a OpenRouter.
@@ -31,11 +80,19 @@ const Chatbot = ({ showNotification, theme }) => {
     const YOUR_SITE_URL = "http://localhost:5173";
     const YOUR_SITE_NAME = "EduCare App";
 
+    // construye el historial de mensajes para enviar al modelo
+    const history = messages.slice(1).map(msg => ({
+      role: msg.sender === 'user' ? 'user' : 'assistant',
+      content: msg.text
+    }));
+    
+    // agrega el nuevo mensaje del usuario
     const messagesToSend = [
       {
         "role": "system",
         "content": CHATBOT_PROMPT
       },
+      ...history,
       {
         "role": "user",
         "content": userMessageText
@@ -54,7 +111,7 @@ const Chatbot = ({ showNotification, theme }) => {
         body: JSON.stringify({
           "model": "google/gemma-3-27b-it:free",
           "messages": messagesToSend,
-          "stream": false 
+          "stream": false
         })
       });
 
@@ -79,11 +136,30 @@ const Chatbot = ({ showNotification, theme }) => {
 
   const handleSend = () => {
     if (input.trim() !== '' && !isLoading) {
+      // logica para detectar palabras clave de peligro
+      if (containsDangerKeyword(input)) {
+        const emergencyMessage = { 
+          text: "🚨 Si estás pasando por un momento difícil, no estás solo. Por favor, considera contactar a un profesional de inmediato o llamar a una línea de ayuda. Puedes ver nuestros en nuestros recursos los numeros de contacto.", 
+          sender: 'bot' 
+        };
+        setMessages(prev => [...prev, { text: input, sender: 'user' }, emergencyMessage]);
+        setInput('');
+        showNotification("Mensaje de emergencia activado.");
+        return; // detiene la ejecución para no llamar a la API
+      }
+
       const userMessage = { text: input, sender: 'user' };
       setMessages(prev => [...prev, userMessage]);
       fetchBotResponse(input);
       setInput('');
     }
+  };
+
+  // funcion para resetear la conversacion
+  const handleReset = () => {
+    const initialMessage = { text: '¡Hola! Estoy aquí para escucharte. ¿Cómo te sientes hoy?', sender: 'bot' };
+    setMessages([initialMessage]); // resetea el estado a su valor inicial
+    localStorage.removeItem('chat_messages'); // limpia el almacenamiento local
   };
 
   const chatContainerClasses = theme === 'dark' ?
@@ -97,7 +173,7 @@ const Chatbot = ({ showNotification, theme }) => {
   return (
     <section className="space-y-4">
       <h2 className={`text-3xl font-bold text-center ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}>
-      Chat de Apoyo
+        Chat de Apoyo
       </h2>
       
       <div className={`h-96 overflow-y-auto p-4 rounded-2xl scrollbar-thin ${chatContainerClasses}`}>
@@ -122,9 +198,11 @@ const Chatbot = ({ showNotification, theme }) => {
               </div>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
       </div>
-      <div className="flex gap-2">
+
+      <div className="flex flex-wrap gap-2 justify-end">
         <input
           type="text"
           value={input}
@@ -140,6 +218,12 @@ const Chatbot = ({ showNotification, theme }) => {
           className="bg-indigo-500 text-white px-6 py-2 rounded-full hover:bg-indigo-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Enviar
+        </button>
+        <button
+          onClick={handleReset}
+          className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Resetear
         </button>
       </div>
     </section>

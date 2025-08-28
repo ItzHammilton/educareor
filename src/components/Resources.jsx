@@ -41,16 +41,16 @@ const Resources = ({ theme }) => {
       <div className="grid md:grid-cols-2 gap-6">
         <ResourceCard title="Guía de Meditación" description="Una guía paso a paso para empezar a meditar." theme={theme}>
           <div className="mt-4"> 
-            <a href="https://example.com/meditation-guide.pdf" download className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition-colors duration-200 shadow-md">
-              Descargar PDF
+            <a href="https://claudiaariasyoga.com/wp-content/uploads/sites/15/2021/12/Guia-de-meditacion.pdf" download target="_blank" className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition-colors duration-200 shadow-md">
+              Abrir PDF
             </a>
           </div>
         </ResourceCard>
 
         <ResourceCard title="Ejercicios de Respiración" description="Ficha con ejercicios prácticos para la calma." theme={theme}>
           <div className="mt-4">
-            <a href="https://example.com/breathing-exercises.pdf" download className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition-colors duration-200 shadow-md">
-              Descargar PDF
+            <a href="https://www.ttmib.org/documentos/ENTRENAMIENTO_EN_RESPIRACION.pdf" download target="_blank" className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition-colors duration-200 shadow-md">
+              Abrir PDF
             </a>
           </div>
         </ResourceCard>
